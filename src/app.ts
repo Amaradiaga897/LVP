@@ -5,7 +5,6 @@ import { MainController } from "./controllers/main.controller";
 import { AdminController } from "./controllers/admin.controller";
 import mongoose from "mongoose";// Con esto se hace la configuracion para conectarnos a la base de datos
 
-
 import { config } from "dotenv"; //Cada linea de este archivo las va a tratar y manipular como si fuesen variables
 import { resolve } from "path"; // Resuelve para que un archivo pueda ser escuchado desde otro archivo y poder acceder a el
 import { AdminService } from "./services/admin.service";
@@ -29,6 +28,7 @@ class App {
         this.app.use(cors());
     }
 
+    
     private setMongoDBConfig() {
         mongoose.Promise = global.Promise; //A nivel global, mientras no se cumpla todo lo que esta abajo, no vamos a continuar con las siguientes lineas (propio de MongoDB)
 
