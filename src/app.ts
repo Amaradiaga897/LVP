@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { MainController } from "./controllers/main.controller";
 import {BeneficiarioController} from "./controllers/beneficiario.controller"
+import {InterventorController} from "./controllers/interventor.controller"
 import mongoose from "mongoose";// Con esto se hace la configuracion para conectarnos a la base de datos
 
 
@@ -15,12 +16,14 @@ class App{
     public app: Application; //Aplication es una interfaz
     public mainController: MainController;
     public beneficiarioController: BeneficiarioController;
+    public interventorController: InterventorController;
     constructor(){
         this.app = express(); //con esto se crea e inicializa la parte de la app
         this.setConfig();
         this.setMongoDBConfig();
         this.mainController = new MainController (this.app);
         this.beneficiarioController = new BeneficiarioController(this.app);
+        this.interventorController = new InterventorController(this.app);
     }
 
     private setConfig(){ //aqui se hacen las manipulaciones de nuestra app

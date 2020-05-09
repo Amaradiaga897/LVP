@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {Beneficiario, IBeneficiario} from "../models/beneficiario.model"
+import {InterventorService} from "../services/interventor.service"
 import {MongooseDocument} from "mongoose"
 import {resolve} from "dns"
 
@@ -18,7 +19,8 @@ class BeneficiarioHelpers{
 }
 
 export class BeneficiarioService extends BeneficiarioHelpers{
-    public getAll( req: Request, res: Response){
+    
+ /*   public getAll( req: Request, res: Response){
         Beneficiario.find({},(err: Error, beneficiarios: MongooseDocument) =>{
             if(err){
                 res.status(401).send(err);
@@ -26,6 +28,26 @@ export class BeneficiarioService extends BeneficiarioHelpers{
             res.status(200).json(beneficiarios)
         });
     }    
+*/
+
+    public getAll(req:Request, res: Response){
+        Beneficiario.aggregate([
+            {
+                "$lookup":{
+                    from: "interventors",
+                    localField: "interventor",
+                    foreignField: "_id",
+                    as: "interventor"
+                }
+            }
+        ],(err:Error, data:any)=>{
+            if(err){
+                res.status(401).send(err);
+            }else{
+                res.status(200).json(data);
+            } 
+          })
+    }
 
     public async GetById(req: Request, res: Response){
         const my_benef = await super.GetBeneficiario(req.params.id_benef);
@@ -52,9 +74,10 @@ export class BeneficiarioService extends BeneficiarioHelpers{
         });
     }
 
-    public NewOne(req: Request, res: Response){
-        const p = new Beneficiario(req.body);
-        p.save((err: Error, beneficiario: IBeneficiario)=>{
+    public  NewOne(req: Request, res: Response){
+        const b = new Beneficiario(req.body);
+
+        b.save((err: Error, beneficiario: IBeneficiario)=>{
             if(err){
                 res.status(401).send(err);
             }
