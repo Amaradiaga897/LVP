@@ -6,9 +6,9 @@ import {resolve} from "dns"
 
 class BeneficiarioHelpers{
 
-    GetBeneficiario(id_benef:string):Promise<IBeneficiario>{
+    GetBeneficiario(id_benef:any):Promise<IBeneficiario>{
         return new Promise<IBeneficiario>((resolve)=>{
-            Beneficiario.findById(id_benef,(err:Error, beneficiario:IBeneficiario)=>{
+            Beneficiario.find(id_benef,(err:Error, beneficiario:IBeneficiario)=>{
                 if(err){
                     console.log(err.message);
                 }
@@ -74,14 +74,19 @@ export class BeneficiarioService extends BeneficiarioHelpers{
         });
     }
 
-    public  NewOne(req: Request, res: Response){
+    public async NewOne(req: Request, res: Response){
         const b = new Beneficiario(req.body);
+        const existing_benef: any = await super.GetBeneficiario({identidad:b.identidad})
 
-        b.save((err: Error, beneficiario: IBeneficiario)=>{
+        if (existing_benef.length === 0){
+        await b.save((err: Error, beneficiario: IBeneficiario)=>{
             if(err){
                 res.status(401).send(err);
             }
                 res.status(200).json(beneficiario? {"succeeded": true, "beneficiario": beneficiario} : {"succeeded":false});
         });
+        }else{
+            res.status(200).json({"succeeded": false});
+        }
     }   
 }

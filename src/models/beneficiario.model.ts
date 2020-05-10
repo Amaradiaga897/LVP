@@ -3,6 +3,7 @@ import { IInterventor } from "./interventor.model";
 
 export interface IBeneficiario extends mongoose.Document{
     nombre: string;
+    identidad: string;
     telefono: string;
     edad: number;
     direccion: string;
@@ -13,6 +14,7 @@ export interface IBeneficiario extends mongoose.Document{
 const BeneficiarioSchema = new mongoose.Schema({
     //_id: {type: String, required:true},
     nombre: {type: String, required:true},
+    identidad: {type: String, required:true},
     telefono: {type: String, required:true},
     edad: {type: Number, required:true},
     direccion: {type: String, required:true},
