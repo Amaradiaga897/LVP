@@ -4,12 +4,14 @@ import cors from "cors";
 import { MainController } from "./controllers/main.controller";
 import {BeneficiarioController} from "./controllers/beneficiario.controller"
 import {InterventorController} from "./controllers/interventor.controller"
+import {SeguimientoController} from "./controllers/seguimiento.controller"
 import mongoose from "mongoose";// Con esto se hace la configuracion para conectarnos a la base de datos
 
 
 import {config} from "dotenv"; //Cada linea de este archivo las va a tratar y manipular como si fuesen variables
 import {resolve} from "path"; // Resuelve para que un archivo pueda ser escuchado desde otro archivo y poder acceder a el
 import { BeneficiarioService } from "./services/beneficiario.service";
+import { Seguimiento } from "./models/seguimiento.model";
 config({path:resolve(__dirname, "../.env")}); //Con esto resolvemos nuestro archivo .env para que pueda ser escuchado desde cualquier lado de mi directorio
 
 class App{
@@ -17,6 +19,8 @@ class App{
     public mainController: MainController;
     public beneficiarioController: BeneficiarioController;
     public interventorController: InterventorController;
+    public seguimientoController: SeguimientoController;
+
     constructor(){
         this.app = express(); //con esto se crea e inicializa la parte de la app
         this.setConfig();
@@ -24,6 +28,7 @@ class App{
         this.mainController = new MainController (this.app);
         this.beneficiarioController = new BeneficiarioController(this.app);
         this.interventorController = new InterventorController(this.app);
+        this.seguimientoController = new SeguimientoController(this.app);
     }
 
     private setConfig(){ //aqui se hacen las manipulaciones de nuestra app
