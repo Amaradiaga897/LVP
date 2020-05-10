@@ -17,3 +17,8 @@ const InterventorSchema = new mongoose.Schema({
 });
 
 export const Interventor = mongoose.model<IInterventor>("Interventor", InterventorSchema);
+
+
+
+
+//probando nueva pc para hacer comando
