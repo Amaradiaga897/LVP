@@ -3,7 +3,7 @@ import {Seguimiento, ISeguimiento} from "../models/seguimiento.model";
 import {MongooseDocument} from "mongoose";
 import {resolve} from "dns";
 
-class SeguimientoHelpers{
+class SeguimientoHelpers{//empiesa la clase del seguimiento
 
     GetSeguimiento(id_proyecto:string):Promise<ISeguimiento>{
         return new Promise<ISeguimiento>((resolve)=>{
