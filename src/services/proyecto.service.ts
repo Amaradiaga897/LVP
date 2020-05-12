@@ -28,7 +28,7 @@ export class ProyectoService extends ProyectoHelpers{
         res.status(200).send(my_proyec);
     }
     //Payload
-    public Update(req: Request, res: Response){
+    /*public Update(req: Request, res: Response){
         //console.log("entro"); esta es una practica util para debuggear el codigo y asi ver hasta que linea se ejecuta nuestro codigo
         Proyecto.findByIdAndUpdate(req.params.id_proyec, req.body, (err: Error, proyecto: any)=>{
             if(err){
@@ -37,6 +37,7 @@ export class ProyectoService extends ProyectoHelpers{
                 res.status(200).json(proyecto? {"updated": true} : {"updated":false});
         });
     }
+    */
     public Delete(req: Request, res: Response){
         Proyecto.findByIdAndDelete(req.params.id_proyec, req.body, (err: Error, proyecto: any)=>{
             if(err){
