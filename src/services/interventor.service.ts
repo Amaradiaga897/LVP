@@ -18,17 +18,15 @@ class InterventorHelpers{
     }
 }
 
-
 export class InterventorService extends InterventorHelpers{
     public getAll( req: Request, res: Response){
-        Interventor.find({},(err: Error, interventor: MongooseDocument) =>{
+        Interventor.find({},(err: Error, interventores: MongooseDocument) =>{
             if(err){
                 res.status(401).send(err);
             }
-            res.status(200).json(interventor)
+            res.status(200).json(interventores)
         });
     }    
-
     public async getOne(req:Request, res:Response){
         const inter:any = await super.GetInterventor({_id:req.params.id_inter});
         res.status(200).json(inter[0]);
@@ -78,7 +76,7 @@ export class InterventorService extends InterventorHelpers{
 
     public async NewOne(req: Request, res: Response){
         const i = new Interventor(req.body);
-        const existing_inter:any = await super.GetInterventor({identidad:i.identidad}); 
+        const existing_inter:any = await super.GetInterventor({identidad:i.id}); 
         
         if(existing_inter.length === 0){
             await i.save((err: Error, interventor: IInterventor)=>{
