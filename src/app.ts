@@ -9,7 +9,7 @@ import mongoose from "mongoose";// Con esto se hace la configuracion para conect
 import { config } from "dotenv"; //Cada linea de este archivo las va a tratar y manipular como si fuesen variables
 import { resolve } from "path"; // Resuelve para que un archivo pueda ser escuchado desde otro archivo y poder acceder a el
 import { AdminService } from "./services/admin.service";
-config({ path: resolve(__dirname, "../.env") }); //Con esto resolvemos nuestro archivo .env para que pueda ser escuchado desde cualquier lado de mi directorio
+config({ path: resolve(__dirname, ".env") }); //Con esto resolvemos nuestro archivo .env para que pueda ser escuchado desde cualquier lado de mi directorio
 
 class App {
     public app: Application; //Aplication es una interfaz
