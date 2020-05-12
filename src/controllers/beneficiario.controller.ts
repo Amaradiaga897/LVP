@@ -14,8 +14,9 @@ export class BeneficiarioController{
         this.app.route("/beneficiario").post(this.benef_service.NewOne);
        
         this.app.route("/beneficiario/:id_benef")
-        .get(this.benef_service.GetById)
-        .put(this.benef_service.Update)
-        .delete(this.benef_service.Delete);
+        .get(this.benef_service.getOne)
+        //.put(this.benef_service.Update)
+        //.delete(this.benef_service.Delete)
+        .delete(this.benef_service.Validar);
     }
 }
