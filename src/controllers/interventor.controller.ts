@@ -10,12 +10,12 @@ export class InterventorController{
 
     private routes(){
         this.app.route("/interventores").get(this.inter_service.getAll);
-        this.app.route("/interventores/beneficiarios").get(this.inter_service.getAllWBenef);
         this.app.route("/interventor").post(this.inter_service.NewOne);
+        this.app.route("/interventor/:id_inter/proyectos").get(this.inter_service.getOneWProjects);
        
         this.app.route("/interventor/:id_inter")
         .get(this.inter_service.getOne)
         .put(this.inter_service.Update)
-        .delete(this.inter_service.Delete);
+        //.delete(this.inter_service.Delete);
     }
 }

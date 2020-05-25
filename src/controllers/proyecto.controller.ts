@@ -10,12 +10,14 @@ export class ProyectoController{
 
     private routes(){
         this.app.route("/proyectos").get(this.proyec_service.getAll);
-
         this.app.route("/proyecto").post(this.proyec_service.NewOne);
+        this.app.route("/proyecto/:id_proyec/beneficiarios").get(this.proyec_service.getOneWBenef);
+        this.app.route("/proyecto/:id_proyec/seguimientos").get(this.proyec_service.getOneWUpdates);
+
+
        
         this.app.route("/proyecto/:id_proyec")
-        .get(this.proyec_service.GetById)
-        .put(this.proyec_service.Update)
-        .delete(this.proyec_service.Delete);
+        .get(this.proyec_service.getOne)
+        //.delete(this.proyec_service.Delete);
     }
 }

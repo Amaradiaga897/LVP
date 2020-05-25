@@ -1,14 +1,17 @@
 import express, { Application } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+
 import { MainController } from "./controllers/main.controller";
 import { AdminController } from "./controllers/admin.controller";
-import {BeneficiarioController} from "./controllers/beneficiario.controller"
-import {InterventorController} from "./controllers/interventor.controller"
+import {BeneficiarioController} from "./controllers/beneficiario.controller";
+import {InterventorController} from "./controllers/interventor.controller";
+import {ProyectoController} from "./controllers/proyecto.controller";
+import {SeguimientoController} from "./controllers/seguimiento.controller";
+
 import mongoose from "mongoose";// Con esto se hace la configuracion para conectarnos a la base de datos
 import { config } from "dotenv"; //Cada linea de este archivo las va a tratar y manipular como si fuesen variables
 import { resolve } from "path"; // Resuelve para que un archivo pueda ser escuchado desde otro archivo y poder acceder a el
-import { AdminService } from "./services/admin.service";
 config({ path: resolve(__dirname, "../.env") }); //Con esto resolvemos nuestro archivo .env para que pueda ser escuchado desde cualquier lado de mi directorio
 
 class App {
@@ -17,6 +20,8 @@ class App {
     public adminController: AdminController;
     public beneficiarioController: BeneficiarioController;
     public interventorController: InterventorController;
+    public proyectoController: ProyectoController;
+    public seguimientoController: SeguimientoController;
     constructor() {
         this.app = express(); //con esto se crea e inicializa la parte de la app
         this.setConfig();
@@ -25,6 +30,8 @@ class App {
         this.adminController = new AdminController(this.app);
         this.beneficiarioController = new BeneficiarioController(this.app);
         this.interventorController = new InterventorController(this.app);
+        this.proyectoController = new ProyectoController(this.app);
+        this.seguimientoController = new SeguimientoController(this.app);
     }
 
     private setConfig() { //aqui se hacen las manipulaciones de nuestra app

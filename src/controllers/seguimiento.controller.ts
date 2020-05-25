@@ -9,12 +9,7 @@ export class SeguimientoController{
     }
 
     private routes(){
-        this.app.route("/seguimiento").get(this.seguimiento_service.getAll);
-
+        this.app.route("/seguimientos").get(this.seguimiento_service.getAll);
         this.app.route("/seguimiento").post(this.seguimiento_service.NewOne);
-       
-        this.app.route("/seguimiento/:id_proyecto")
-        .get(this.seguimiento_service.GetById)
-        //.post(this.seguimiento_service.NewOne)
     }
 }

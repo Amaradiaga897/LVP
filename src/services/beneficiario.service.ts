@@ -2,7 +2,6 @@ import {Request, Response} from "express";
 import {Beneficiario, IBeneficiario} from "../models/beneficiario.model"
 import {InterventorService} from "../services/interventor.service"
 import {MongooseDocument} from "mongoose"
-import {resolve} from "dns"
 
 class BeneficiarioHelpers{
 
@@ -19,55 +18,25 @@ class BeneficiarioHelpers{
 }
 
 export class BeneficiarioService extends BeneficiarioHelpers{
-    
- /*   public getAll( req: Request, res: Response){
-        Beneficiario.find({},(err: Error, beneficiarios: MongooseDocument) =>{
+
+    //este service es solo para fines de development 
+    public getAll( req: Request, res: Response){
+        Beneficiario.find({},(err: Error, beneficiario: MongooseDocument) =>{
             if(err){
                 res.status(401).send(err);
             }
-            res.status(200).json(beneficiarios)
+            res.status(200).json(beneficiario)
         });
-    }    
-*/
+    }   
 
-    public getAll(req:Request, res: Response){
-        Beneficiario.aggregate([
-            {
-                "$lookup":{
-                    from: "interventors",
-                    localField: "interventor",
-                    foreignField: "_id",
-                    as: "interventor"
-                }
-            }
-        ],(err:Error, data:any)=>{
-            if(err){
-                res.status(401).send(err);
-            }else{
-                res.status(200).json(data);
-            } 
-          })
-    }
-
+    //este service es solo para fines de development     
     public async getOne(req:Request, res:Response){
         const inter:any = await super.GetBeneficiario({_id:req.params.id_benef});
-        console.log(super.GetBeneficiario({_id:req.params.id_benef}));
         res.status(200).json(inter[0]);
     }
 
-    //Payload
-   /* public Update(req: Request, res: Response){
-        //console.log("entro"); esta es una practica util para debuggear el codigo y asi ver hasta que linea se ejecuta nuestro codigo
-        Beneficiario.findByIdAndUpdate(req.params.id_benef, req.body, (err: Error, beneficiario: any)=>{
-            if(err){
-                res.status(401).send(err);
-            }
-                res.status(200).json(beneficiario? {"updated": true} : {"updated":false});
-        });
-    }
-*/
- /*   public Delete(req: Request, res: Response){
-        
+    // Consumido en Pagina del listado de beneficiarios en el proyecto (Borrar beneficiario)
+    public Delete(req: Request, res: Response){    
         Beneficiario.findByIdAndDelete(req.params.id_benef, req.body, (err: Error, beneficiario: any)=>{
             if(err){
                 res.status(401).send(err);
@@ -75,11 +44,12 @@ export class BeneficiarioService extends BeneficiarioHelpers{
                 res.status(200).json(beneficiario? {"deleted": true} : {"deleted":false});
         });
     }
-*/
+
+    // Consumido en Validar matricula (función interventor)
     public async  Validar (req: Request, res: Response){
-        const validate: any = await super.GetBeneficiario({edad:req.body.edad})       
-        if( validate <= 15){
-            console.log(req.body.id_benef);
+        const validate: any = await super.GetBeneficiario({_id:req.params.id_benef})       
+        if( parseInt(validate[0].edad) >= 20){
+            console.log(validate[0].edad);
             Beneficiario.findByIdAndDelete(req.params.id_benef, req.body, (err: Error, beneficiario: any)=>{
                 if(err){
                     res.status(401).send(err);
@@ -91,6 +61,7 @@ export class BeneficiarioService extends BeneficiarioHelpers{
         }
     }
 
+    // Consumido en Agregar nuevo beneficiario (Interventor)
     public async NewOne(req: Request, res: Response){
         const b = new Beneficiario(req.body);
         const existing_benef: any = await super.GetBeneficiario({identidad:b.identidad})

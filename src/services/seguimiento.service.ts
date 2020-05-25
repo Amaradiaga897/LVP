@@ -1,9 +1,8 @@
 import {Request, Response} from "express";
 import {Seguimiento, ISeguimiento} from "../models/seguimiento.model";
 import {MongooseDocument} from "mongoose";
-import {resolve} from "dns";
 
-class SeguimientoHelpers{//empiesa la clase del seguimiento
+class SeguimientoHelpers{
 
     GetSeguimiento(id_proyecto:string):Promise<ISeguimiento>{
         return new Promise<ISeguimiento>((resolve)=>{
@@ -18,6 +17,8 @@ class SeguimientoHelpers{//empiesa la clase del seguimiento
 }
 
 export class SeguimientoService extends SeguimientoHelpers{
+
+    // Service no consumido
     public getAll( req: Request, res: Response){
         Seguimiento.find({},(err: Error, seguimiento: MongooseDocument) =>{
             if(err){
@@ -25,29 +26,12 @@ export class SeguimientoService extends SeguimientoHelpers{
             }
             res.status(200).json(seguimiento)
         });
-    }    
+    }       
 
-    public async GetById(req: Request, res: Response){
-        const my_proyecto = await super.GetSeguimiento(req.params.id_proyecto);
-        res.status(200).send(my_proyecto);
-    }
-
-    //Payload
-    public Update(req: Request, res: Response){
-        //console.log("entro"); esta es una practica util para debuggear el codigo y asi ver hasta que linea se ejecuta nuestro codigo
-        Seguimiento.findByIdAndUpdate(req.params.id_proyecto, req.body, (err: Error, seguimiento: any)=>{
-            if(err){
-                res.status(401).send(err);
-            }
-                res.status(200).json(seguimiento? {"updated": true} : {"updated":false});
-        });
-    }
-
-    
-
+    // Consumido en Pagina de actualizacion de proyecto (Interventor)
     public NewOne(req: Request, res: Response){
-        const p = new Seguimiento(req.body);
-        p.save((err: Error, seguimiento: ISeguimiento)=>{
+        const s = new Seguimiento(req.body);
+        s.save((err: Error, seguimiento: ISeguimiento)=>{
             if(err){
                 res.status(401).send(err);
             }

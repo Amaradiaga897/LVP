@@ -10,13 +10,11 @@ export class BeneficiarioController{
 
     private routes(){
         this.app.route("/beneficiarios").get(this.benef_service.getAll);
-
         this.app.route("/beneficiario").post(this.benef_service.NewOne);
+        this.app.route("/beneficiario/:id_benef/validar").delete(this.benef_service.Validar);
        
         this.app.route("/beneficiario/:id_benef")
         .get(this.benef_service.getOne)
-        //.put(this.benef_service.Update)
-        //.delete(this.benef_service.Delete)
-        .delete(this.benef_service.Validar);
+        .delete(this.benef_service.Delete);
     }
 }
